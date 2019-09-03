@@ -17,6 +17,10 @@ const globalStyle = createGlobalStyle`
 		color:white;
 		padding-top:80px;
 	}
+	img {
+		display: inline-block;
+		max-width: 100%;
+	}
 `;
 
 export default globalStyle;
