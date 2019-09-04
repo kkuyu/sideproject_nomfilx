@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import Loader from "Components/Loader";
 import Message from "Components/Message";
@@ -22,7 +23,10 @@ const Input = styled.input`
 	font-size: 28px;
 `;
 
-const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, handleSubmit, updateTerm }) => (
+const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, handleSubmit, updateTerm }) => <>
+	<Helmet>
+		<title>Search | Nomfilx</title>
+	</Helmet>
 	<Container>
 		<Form onSubmit={handleSubmit}>
 			<Input type="text" placeholder="Search Movies or TV Shows..." value={searchTerm} onChange={updateTerm} />
@@ -38,7 +42,7 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, 
 			{ movieResults && movieResults.length === 0 && tvResults && tvResults.length === 0 && <Message text="Nothing Found." color="#95a5a6" /> }
 		</>}
 	</Container>
-);
+</>;
 
 SearchPresenter.propTypes = {
 	movieResults: PropTypes.array,

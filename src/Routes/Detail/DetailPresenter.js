@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import Loader from "Components/Loader";
 import Message from "Components/Message";
@@ -65,25 +66,37 @@ const Overview = styled.p`
 	line-height: 1.5;
 `;
 
-const HomePresenter = ({ result, error, loading }) => loading ? <Loader /> : (
-	<Container>
-		<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
-		<Content>
-			<Cover src={result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : require("../../assets/noPoster.png")} alt="" />
-			<Data>
-				<Title>{result.original_title ? result.original_title : result.original_name}</Title>
-				<ItemContainer>
-					<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
-					<Item>{result.runtime ? result.runtime : result.episode_run_time[0]} min</Item>
-					<Item>{result.genres && result.genres.map(genre => <Genre>{genre.name}</Genre>)}</Item>
-					{/* <Item>Link</Item> */}
-					{/* <Item>Star</Item> */}
-				</ItemContainer>
-				<Overview>{result.overview}</Overview>
-			</Data>
-		</Content>
-	</Container>
-);
+const HomePresenter = ({ result, error, loading }) => (
+	loading ? <>
+		<Helmet>
+			<title>Loading | Nomfilx</title>
+		</Helmet>
+		<Loader />
+	</> : <>
+		{ error ? <Container><Message text={error} /></Container> : <>
+			<Helmet>
+				<title>{result.original_title ? result.original_title : result.original_name} | Nomfilx</title>
+			</Helmet>
+			<Container>
+				<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
+				<Content>
+					<Cover src={result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : require("../../assets/noPoster.png")} alt="" />
+					<Data>
+						<Title>{result.original_title ? result.original_title : result.original_name}</Title>
+						<ItemContainer>
+							<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
+							<Item>{result.runtime ? result.runtime : result.episode_run_time[0]} min</Item>
+							<Item>{result.genres && result.genres.map(genre => <Genre>{genre.name}</Genre>)}</Item>
+							{/* <Item>Link</Item> */}
+							{/* <Item>Star</Item> */}
+						</ItemContainer>
+						<Overview>{result.overview}</Overview>
+					</Data>
+				</Content>
+			</Container>
+		</> }
+	</>
+)
 
 HomePresenter.propTypes = {
 	result: PropTypes.object,
