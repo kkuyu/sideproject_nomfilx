@@ -2,7 +2,7 @@
 Learning React and ES6 by building a Movie Discovery App.
 
 ## Preview
-Try it on [Github pages](https://kkuyu.github.io/sideproject_nomfilx) or [Netlify](https://nomfilx.netlify.com/)
+Try it on [Netlify](https://nomfilx.netlify.com/)
 
 ## Screens
 - [x] Home
@@ -27,7 +27,7 @@ Try it on [Github pages](https://kkuyu.github.io/sideproject_nomfilx) or [Netlif
 - [x] Search TV Show
 
 ## Code Challenges
-- [ ] IMDB Link
+- [x] IMDB Link
 - [ ] Tabs inside of Movie / Show Details ( Youtube Videos, Production Company & Countries )
 - [ ] Collections Link
 - [ ] /collection Route

@@ -54,6 +54,9 @@ const Item = styled.span`
 		background: #fff;
 		vertical-align: super;
 	}
+	a {
+		text-decoration: underline;
+	}
 `;
 const Genre = styled.em`
 	& + &:before {
@@ -85,10 +88,14 @@ const HomePresenter = ({ result, error, loading, isMovie }) => (
 						<Title>{result.original_title ? result.original_title : result.original_name}</Title>
 						<ItemContainer>
 							<Item>{isMovie ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
-							<Item>{isMovie ? result.runtime : result.episode_run_time[0]} min</Item>
-							<Item>{result.genres && result.genres.map((genre, index) => <Genre key={index}>{genre.name}</Genre>)}</Item>
-							{/* <Item>Link</Item> */}
-							{/* <Item>Star</Item> */}
+							{isMovie ?
+								result.runtime && <Item>{result.runtime}min</Item>
+								: result.episode_run_time.length && <Item>{result.episode_run_time[0]}min</Item>
+							}
+							{result.vote_average && <Item><span role="img" aria-label="rating">⭐</span> {result.vote_average} / 10</Item>}
+							{result.genres && <Item>{result.genres.map((genre, index) => <Genre key={index}>{genre.name}</Genre>)}</Item>}
+							{result.imdb_id && <Item><a href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} IMDb`}>IMDb</a></Item>}
+							{result.homepage && <Item><a href={result.homepage} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} homepage`}>Homepage</a></Item>}
 						</ItemContainer>
 						<Overview>{result.overview}</Overview>
 						{/* Collection */}
