@@ -1,6 +1,9 @@
 # Nomfilx
 Learning React and ES6 by building a Movie Discovery App.
 
+## Preview
+Try it on [Github pages](https://kkuyu.github.io/sideproject_nomfilx) or [Netlify](https://nomfilx.netlify.com/)
+
 ## Screens
 - [x] Home
 - [x] TV Shows

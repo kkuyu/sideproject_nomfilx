@@ -25,7 +25,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://kkuyu.github.io/sideproject_nomfilx",
+  "homepage": "https://nomfilx.netlify.com",
   "browserslist": {
     "production": [
       ">0.2%",
