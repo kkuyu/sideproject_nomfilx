@@ -91,6 +91,9 @@ const HomePresenter = ({ result, error, loading }) => (
 							{/* <Item>Star</Item> */}
 						</ItemContainer>
 						<Overview>{result.overview}</Overview>
+						{/* Collection */}
+						{/* Youtube Video */}
+						{/* Production Company & Countries */}
 					</Data>
 				</Content>
 			</Container>
