@@ -66,7 +66,7 @@ const Overview = styled.p`
 	line-height: 1.5;
 `;
 
-const HomePresenter = ({ result, error, loading }) => (
+const HomePresenter = ({ result, error, loading, isMovie }) => (
 	loading ? <>
 		<Helmet>
 			<title>Loading | Nomfilx</title>
@@ -75,7 +75,7 @@ const HomePresenter = ({ result, error, loading }) => (
 	</> : <>
 		{ error ? <Container><Message text={error} /></Container> : <>
 			<Helmet>
-				<title>{result.original_title ? result.original_title : result.original_name} | Nomfilx</title>
+				<title>{isMovie ? result.original_title : result.original_name} | Nomfilx</title>
 			</Helmet>
 			<Container>
 				<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
@@ -84,9 +84,9 @@ const HomePresenter = ({ result, error, loading }) => (
 					<Data>
 						<Title>{result.original_title ? result.original_title : result.original_name}</Title>
 						<ItemContainer>
-							<Item>{result.release_date ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
-							<Item>{result.runtime ? result.runtime : result.episode_run_time[0]} min</Item>
-							<Item>{result.genres && result.genres.map(genre => <Genre>{genre.name}</Genre>)}</Item>
+							<Item>{isMovie ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
+							<Item>{isMovie ? result.runtime : result.episode_run_time[0]} min</Item>
+							<Item>{result.genres && result.genres.map((genre, index) => <Genre key={index}>{genre.name}</Genre>)}</Item>
 							{/* <Item>Link</Item> */}
 							{/* <Item>Star</Item> */}
 						</ItemContainer>
@@ -104,7 +104,8 @@ const HomePresenter = ({ result, error, loading }) => (
 HomePresenter.propTypes = {
 	result: PropTypes.object,
 	error: PropTypes.string,
-	loading: PropTypes.bool.isRequired
+	loading: PropTypes.bool.isRequired,
+	isMovie: PropTypes.bool.isRequired
 };
 
 export default HomePresenter;
