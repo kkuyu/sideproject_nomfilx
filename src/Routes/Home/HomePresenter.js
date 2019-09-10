@@ -9,15 +9,17 @@ import Poster from "Components/Poster";
 import Section from "Components/Section";
 
 const Container = styled.div`
-	padding: 30px 20px;
+	padding: 30px 30px;
 `;
+const Heading = styled.h2``;
 
 const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => <>
 	<Helmet>
-		<title>Movies | Nomfilx</title>
+		<title>Movie | Nomfilx</title>
 	</Helmet>
 	{ loading ? <Loader /> : (
 		<Container>
+			<Heading className="hidden">Movie List</Heading>
 			{ nowPlaying && nowPlaying.length > 0 && <Section title="Now Playing">{nowPlaying.map(movie =>
 				<Poster key={movie.id} id={movie.id} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} isMovie={true} />
 			)}</Section> }

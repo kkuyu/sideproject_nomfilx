@@ -4,22 +4,33 @@ import reset from "styled-reset";
 const globalStyle = createGlobalStyle`
 	${reset};
 	a{
-		text-decoration:none;
-		color:inherit;
+		color: inherit;
+		text-decoration: none;
 	}
 	*{
-		box-sizing:border-box;
+		box-sizing: border-box;
 	}
 	body{
-		font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-		font-size:14px;
-		background-color:rgba(20, 20, 20, 1);
-		color:white;
-		padding-top:50px;
+		padding-left: 250px;
+		font-size: 14px;
+		line-height: 1.2;
+		color: white;
+		background-color: #1b1c20;
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	}
 	img {
 		display: inline-block;
 		max-width: 100%;
+	}
+	.hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 	}
 `;
 

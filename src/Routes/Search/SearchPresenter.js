@@ -11,12 +11,11 @@ import Section from "Components/Section";
 const Container = styled.div`
 	padding: 30px 20px;
 `;
-
+const Heading = styled.h2``;
 const Form = styled.form`
 	margin-bottom: 50px;
 	width: 100%;
 `;
-
 const Input = styled.input`
 	all: unset;
 	width: 100%;
@@ -28,6 +27,7 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, 
 		<title>Search | Nomfilx</title>
 	</Helmet>
 	<Container>
+		<Heading>Search</Heading>
 		<Form onSubmit={handleSubmit}>
 			<Input type="text" placeholder="Search Movies or TV Shows..." value={searchTerm} onChange={updateTerm} />
 		</Form>

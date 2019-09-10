@@ -8,11 +8,20 @@ import Message from "Components/Message";
 import Poster from "Components/Poster";
 import Section from "Components/Section";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faStarSolid, faStarHalfAlt as faStarHalf } from '@fortawesome/free-solid-svg-icons';
+import { faStar as faStarRegular } from '@fortawesome/free-regular-svg-icons';
+
 const Container = styled.div`
-	position: relative;
 	width: 100%;
-	height: calc( 100vh - 50px );
-	padding: 50px;
+`;
+const Info = styled.header`
+	position: relative;
+	padding: 55px;
+	display: flex;
+	min-height: 400px;
+	align-items: center;
+    justify-content: space-between;
 `;
 const Backdrop = styled.div`
 	position: absolute;
@@ -23,28 +32,43 @@ const Backdrop = styled.div`
 	background-image: url(${props => props.bgImage});
 	background-position: center center;
 	background-size: cover;
-	filter: blur(3px);
-	opacity: 0.5;
+	opacity: 0.2;
 	z-index: -1;
-`;
-const Content = styled.div`
-	display: flex;
+	&:before {
+		content:"";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 210px;
+		background: linear-gradient(to bottom, transparent, #1b1c20);
+	}
 `;
 const Cover = styled.img`
-	width: 30%;
+	margin-left: 35px;
+	width: 190px;
 	border-radius: 5px;
 `;
-const Data = styled.div`
-	margin-left: 10px;
-	width: 70%;
+const InfoData = styled.div`
+	width: 610px;
 `;
-const Title = styled.h3`
-	font-size: 32px;
+const Title = styled.h2`
+	font-size: 42px;
+	font-weight: bold;
+	* + & {
+		margin-top: 14px;
+	}
+`;
+const StarContainer = styled.div``;
+const Star = styled.span``;
+const Rating = styled.strong`
+	font-size: 16px;
 `;
 const ItemContainer = styled.div`
-	margin-top: 15px;
+	margin-top: 25px;
 `;
 const Item = styled.span`
+	color: #ddd;
 	& + &:before {
 		content: "";
 		margin: 0 10px;
@@ -54,9 +78,6 @@ const Item = styled.span`
 		background: #fff;
 		vertical-align: super;
 	}
-	a {
-		text-decoration: underline;
-	}
 `;
 const Genre = styled.em`
 	& + &:before {
@@ -64,9 +85,52 @@ const Genre = styled.em`
 		margin: 0 5px;
 	}
 `;
-const Overview = styled.p`
+const Overview = styled.div`
+	margin-top: 22px;
+	line-height: 1.8;
+`;
+const Tagline = styled.strong`
+	display: block;
+	font-size: 15px;
+`;
+const Synopsis = styled.p`
+	color: #ddd;
+`;
+const LinkContainer = styled.div`
 	margin-top: 30px;
-	line-height: 1.5;
+`;
+const Link = styled.a`
+	position: relative;
+	display: inline-block;
+	padding: 8px 22px;
+	color: #ddd;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	overflow: hidden;
+	transition: border-color 0.2s;
+	& + & {
+		margin-left: 10px;
+	}
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0;
+		height: 100%;
+		background: #ea0037;
+		z-index: -1;
+		transition: width 0.2s;
+	}
+	&:hover, &:focus {
+		border-color: #ea0037;
+		&:before {
+			width: 100%;
+		}
+	}
+`;
+const Content = styled.article`
+	padding: 55px;
 `;
 
 const HomePresenter = ({ result, error, loading, isMovie }) => (
@@ -81,27 +145,44 @@ const HomePresenter = ({ result, error, loading, isMovie }) => (
 				<title>{isMovie ? result.original_title : result.original_name} | Nomfilx</title>
 			</Helmet>
 			<Container>
-				<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
-				<Content>
-					<Cover src={result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : require("../../assets/noPoster.png")} alt="" />
-					<Data>
-						<Title>{result.original_title ? result.original_title : result.original_name}</Title>
+				<Info>
+					<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
+					<InfoData>
+						{result.vote_average > 0 && <StarContainer>
+							<Star>
+								{/*
+									<FontAwesomeIcon icon={ faStarSolid }/> parseInt(result.vote_average/2)
+									<FontAwesomeIcon icon={ faStarHalf }/> parseInt(result.vote_average%2)
+									<FontAwesomeIcon icon={ faStarRegular }/> parseInt(5 - result.vote_average/2)
+								*/}
+								<span role="img" aria-label="rating">⭐</span>
+							</Star>
+							<Rating>{result.vote_average}</Rating>
+						</StarContainer>}
+						<Title>{isMovie ? result.original_title : result.original_name}</Title>
 						<ItemContainer>
 							<Item>{isMovie ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
 							{isMovie ?
 								result.runtime && <Item>{result.runtime}min</Item>
 								: result.episode_run_time.length && <Item>{result.episode_run_time[0]}min</Item>
 							}
-							{result.vote_average && <Item><span role="img" aria-label="rating">⭐</span> {result.vote_average} / 10</Item>}
 							{result.genres && <Item>{result.genres.map((genre, index) => <Genre key={index}>{genre.name}</Genre>)}</Item>}
-							{result.imdb_id && <Item><a href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} IMDb`}>IMDb</a></Item>}
-							{result.homepage && <Item><a href={result.homepage} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} homepage`}>Homepage</a></Item>}
 						</ItemContainer>
-						<Overview>{result.overview}</Overview>
-						{/* Collection */}
-						{/* Youtube Video */}
-						{/* Production Company & Countries */}
-					</Data>
+						<Overview>
+							{result.tagline && <Tagline>&ldquo; {result.tagline} &rdquo;</Tagline>}
+							<Synopsis>{result.overview ? result.overview : "No synopsis registered"}</Synopsis>
+						</Overview>
+						<LinkContainer>
+							{result.imdb_id && <Link href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} IMDb`}>IMDb</Link>}
+							{result.homepage && <Link href={result.homepage} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} homepage`}>Homepage</Link>}
+						</LinkContainer>
+					</InfoData>
+					<Cover src={result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : require("../../assets/noPoster.png")} alt="" />
+				</Info>
+				<Content>
+					{/* Collection */}
+					{/* Youtube Video */}
+					{/* Production Company & Countries */}
 				</Content>
 			</Container>
 		</> }

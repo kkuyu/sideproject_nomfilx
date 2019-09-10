@@ -11,6 +11,7 @@ import Section from "Components/Section";
 const Container = styled.div`
 	padding: 30px 20px;
 `;
+const Heading = styled.h2``;
 
 const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => <>
 	<Helmet>
@@ -18,6 +19,7 @@ const TVPresenter = ({ topRated, popular, airingToday, error, loading }) => <>
 	</Helmet>
 	{ loading ? <Loader /> : (
 		<Container>
+			<Heading className="hidden">TV Show List</Heading>
 			{ topRated && topRated.length > 0 && <Section title="Top Rated Shows">{topRated.map(show => 
 				<Poster key={show.id} id={show.id} imageUrl={show.poster_path} title={show.original_name} rating={show.vote_average} year={show.first_air_date && show.first_air_date.substring(0,4)} isMovie={false} />
 			)}</Section> }

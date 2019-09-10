@@ -8,7 +8,8 @@ const Container = styled.div`
 	}
 `;
 
-const Title = styled.span`
+const Title = styled.h3`
+	font-size: 17px;
 	font-weight: 600;
 `;
 
