@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons';
+
 const Container = styled.div`
 `;
 const Image = styled.img`
@@ -19,6 +22,9 @@ const Rating = styled.em`
 	left: 5px;
 	opacity: 0;
 	transition: opacity 0.1s ease-in 0.05s;
+	.faStarSolid {
+		color: #ffd700;
+	}
 `;
 const ImageContainer = styled.span`
 	position: relative;
@@ -61,7 +67,7 @@ const Poster = ({id, imageUrl, title, rating, year, isMovie=false}) => (
 		<Container>
 			<ImageContainer>
 				<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt={title} />
-				<Rating><span role="img" aria-label="rating">⭐</span> {rating}/10</Rating>
+				<Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" /> {rating}/10</Rating>
 			</ImageContainer>
 			<TextContainer>
 				<Title>{title.length > 15 ? `${title.substring(0,20)}...` : title}</Title>

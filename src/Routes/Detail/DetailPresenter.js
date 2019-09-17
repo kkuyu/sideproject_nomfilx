@@ -60,8 +60,13 @@ const Title = styled.h2`
 	}
 `;
 const StarContainer = styled.div``;
-const Star = styled.span``;
+const Star = styled.span`
+	.faStarSolid, .faStarHalf {
+		color: #ffd700;
+	}
+`;
 const Rating = styled.strong`
+	padding-left: 5px;
 	font-size: 16px;
 `;
 const ItemContainer = styled.div`
@@ -140,7 +145,7 @@ const HomePresenter = ({ result, error, loading, isMovie }) => (
 		</Helmet>
 		<Loader />
 	</> : <>
-		{ error ? <Container><Message text={error} /></Container> : <>
+		{ error ? <Container><Message text={error} color="#e74c3c" /></Container> : <>
 			<Helmet>
 				<title>{isMovie ? result.original_title : result.original_name} | Nomfilx</title>
 			</Helmet>
@@ -148,17 +153,14 @@ const HomePresenter = ({ result, error, loading, isMovie }) => (
 				<Info>
 					<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
 					<InfoData>
-						{result.vote_average > 0 && <StarContainer>
+						<StarContainer>
 							<Star>
-								{/*
-									<FontAwesomeIcon icon={ faStarSolid }/> parseInt(result.vote_average/2)
-									<FontAwesomeIcon icon={ faStarHalf }/> parseInt(result.vote_average%2)
-									<FontAwesomeIcon icon={ faStarRegular }/> parseInt(5 - result.vote_average/2)
-								*/}
-								<span role="img" aria-label="rating">⭐</span>
+								{ Array(parseInt(result.vote_average/2)).fill(null).map((i,index) => <FontAwesomeIcon key={index} icon={ faStarSolid } className="faStarSolid" /> ) }
+								{ Array(parseInt(result.vote_average%2)).fill(null).map((i,index) => <FontAwesomeIcon key={index} icon={ faStarHalf } className="faStarHalf" /> ) }
+								{ Array(5 - Math.round(result.vote_average/2)).fill(null).map((i,index) => <FontAwesomeIcon key={index} icon={ faStarRegular } className="faStarRegular" /> ) }
 							</Star>
 							<Rating>{result.vote_average}</Rating>
-						</StarContainer>}
+						</StarContainer>
 						<Title>{isMovie ? result.original_title : result.original_name}</Title>
 						<ItemContainer>
 							<Item>{isMovie ? result.release_date.substring(0,4) : result.first_air_date.substring(0,4)}</Item>
