@@ -16,19 +16,21 @@ const Title = styled.h3`
 const Grid = styled.div`
 	margin-top: 25px;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, 125px);
-	grid-gap: 25px;
+	grid-template-columns: repeat(auto-fill, ${props => props.columnWidth || "125px"});
+	grid-gap: ${props => props.columnGap || "20px"};
 `;
 
-const Section = ({title, children}) => (
+const Section = ({title, columnWidth, columnGap, children}) => (
 	<Container>
 		<Title>{title}</Title>
-		<Grid>{children}</Grid>
+		<Grid columnWidth={columnWidth} columnGap={columnGap}>{children}</Grid>
 	</Container>
 );
 
 Section.prototype = {
 	title: PropTypes.string.isRequired,
+	columnWidth: PropTypes.string,
+	columnGap: PropTypes.string,
 	children: PropTypes.oneOfType([
 		PropTypes.arrayOf(PropTypes.node),
 		PropTypes.node

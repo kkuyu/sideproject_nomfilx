@@ -7,6 +7,7 @@ import Loader from "Components/Loader";
 import Message from "Components/Message";
 import Poster from "Components/Poster";
 import Section from "Components/Section";
+import VideoThumbnail from "Components/VideoThumbnail";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarSolid, faStarHalfAlt as faStarHalf } from '@fortawesome/free-solid-svg-icons';
@@ -183,7 +184,11 @@ const HomePresenter = ({ result, error, loading, isMovie }) => (
 				</Info>
 				<Content>
 					{/* Collection */}
-					{/* Youtube Video */}
+
+					{result.videos.results && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
+						{result.videos.results.map((video,index) => video.site === "YouTube" && <VideoThumbnail videoType={`${index < 10 ? `0${index}` : index} ${video.type}`} videoKey={video.key} videoName={video.name} />)}
+					</Section>}
+
 					{/* Production Company & Countries */}
 				</Content>
 			</Container>

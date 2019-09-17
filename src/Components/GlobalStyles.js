@@ -22,6 +22,14 @@ const globalStyle = createGlobalStyle`
 		display: inline-block;
 		max-width: 100%;
 	}
+	button {
+		padding: 0;
+		line-height: 1.2;
+		text-align: left;
+		border: none;
+		background: transparent;
+		cursor: pointer;
+	}
 	.hidden {
 		position: absolute;
 		width: 1px;
