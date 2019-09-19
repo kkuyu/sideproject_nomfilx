@@ -39,7 +39,8 @@ const ImageContainer = styled.span`
 		padding-bottom: 75%;
 		z-index: -1;
 	}
-	&:hover {
+	&:hover,
+	&:focus {
 		border-color: #ea0037;
 		${Image} {
 			opacity: 0.6;
@@ -50,18 +51,24 @@ const ImageContainer = styled.span`
 	}
 `;
 
-const VideoThumbnail = ({videoType, videoKey, videoName}) => (
-	<Container>
+const VideoThumbnail = ({handleOpenModal, videoIndex, videoType, videoId, videoName}) => (
+	<Container onClick={handleOpenModal}>
 		<ImageContainer>
-			<Tag><FontAwesomeIcon icon={ faPlay } className="faPlay" /> {videoType}</Tag>
-			<Image src={videoKey ? `http://i.ytimg.com/vi/${videoKey}/hqdefault.jpg` : require("../assets/noPoster.png")} alt={videoName} />
+			<Tag>
+				<FontAwesomeIcon icon={ faPlay } className="faPlay" />
+				{videoIndex < 10 ? `0${videoIndex}` : videoIndex} {videoType}
+			</Tag>
+			<Image src={videoId ? `http://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : require("../assets/noPoster.png")} alt={videoName} />
 		</ImageContainer>
 	</Container>
 );
 
 VideoThumbnail.prototype = {
+	isModalOpen: PropTypes.bool,
+	handleOpenModal: PropTypes.func,
+	videoIndex: PropTypes.number.isRequired,
 	videoType: PropTypes.string.isRequired,
-	videoKey: PropTypes.string.isRequired,
+	videoId: PropTypes.string.isRequired,
 	videoName: PropTypes.string.isRequired
 };
 

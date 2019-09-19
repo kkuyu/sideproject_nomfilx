@@ -5,9 +5,9 @@ import Helmet from "react-helmet";
 
 import Loader from "Components/Loader";
 import Message from "Components/Message";
-import Poster from "Components/Poster";
 import Section from "Components/Section";
 import VideoThumbnail from "Components/VideoThumbnail";
+import Modal from "Components/Modal";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarSolid, faStarHalfAlt as faStarHalf } from '@fortawesome/free-solid-svg-icons';
@@ -102,10 +102,10 @@ const Tagline = styled.strong`
 const Synopsis = styled.p`
 	color: #ddd;
 `;
-const LinkContainer = styled.div`
+const HyperlinkContainer = styled.div`
 	margin-top: 30px;
 `;
-const Link = styled.a`
+const Hyperlink = styled.a`
 	position: relative;
 	display: inline-block;
 	padding: 8px 22px;
@@ -128,7 +128,8 @@ const Link = styled.a`
 		z-index: -1;
 		transition: width 0.2s;
 	}
-	&:hover, &:focus {
+	&:hover,
+	&:focus {
 		border-color: #ea0037;
 		&:before {
 			width: 100%;
@@ -139,7 +140,7 @@ const Content = styled.article`
 	padding: 55px;
 `;
 
-const HomePresenter = ({ result, error, loading, isMovie }) => (
+const HomePresenter = ({ result, error, loading, isMovie, isModalOpen, handleOpenModal, handleCloseModal }) => (
 	loading ? <>
 		<Helmet>
 			<title>Loading | Nomfilx</title>
@@ -175,23 +176,28 @@ const HomePresenter = ({ result, error, loading, isMovie }) => (
 							{result.tagline && <Tagline>&ldquo; {result.tagline} &rdquo;</Tagline>}
 							<Synopsis>{result.overview ? result.overview : "No synopsis registered"}</Synopsis>
 						</Overview>
-						<LinkContainer>
-							{result.imdb_id && <Link href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} IMDb`}>IMDb</Link>}
-							{result.homepage && <Link href={result.homepage} target="_blank" rel="noopener noreferrer" title={`Link to ${result.homepage} homepage`}>Homepage</Link>}
-						</LinkContainer>
+						<HyperlinkContainer>
+							{result.imdb_id && <Hyperlink href={`https://www.imdb.com/title/${result.imdb_id}`} target="_blank" rel="noopener noreferrer" title={`Hyperlink to ${result.homepage} IMDb`}>IMDb</Hyperlink>}
+							{result.homepage && <Hyperlink href={result.homepage} target="_blank" rel="noopener noreferrer" title={`Hyperlink to ${result.homepage} homepage`}>Homepage</Hyperlink>}
+						</HyperlinkContainer>
 					</InfoData>
 					<Cover src={result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : require("../../assets/noPoster.png")} alt="" />
 				</Info>
 				<Content>
 					{/* Collection */}
 
-					{result.videos.results && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
-						{result.videos.results.map((video,index) => video.site === "YouTube" && <VideoThumbnail videoType={`${index < 10 ? `0${index}` : index} ${video.type}`} videoKey={video.key} videoName={video.name} />)}
+					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
+						{result.videos.results.map((video,index) => 
+							video.site === "YouTube" && <VideoThumbnail handleOpenModal={handleOpenModal} videoIndex={index+1} videoType={video.type} videoId={video.key} videoName={video.name} />
+						)}
 					</Section>}
 
 					{/* Production Company & Countries */}
 				</Content>
 			</Container>
+
+			{ isModalOpen && <Modal handleCloseModal={handleCloseModal} /> }
+
 		</> }
 	</>
 )
@@ -200,7 +206,10 @@ HomePresenter.propTypes = {
 	result: PropTypes.object,
 	error: PropTypes.string,
 	loading: PropTypes.bool.isRequired,
-	isMovie: PropTypes.bool.isRequired
+	isMovie: PropTypes.bool.isRequired,
+	isModalOpen: PropTypes.bool,
+	handleOpenModal: PropTypes.func,
+	handleCloseModal: PropTypes.func
 };
 
 export default HomePresenter;

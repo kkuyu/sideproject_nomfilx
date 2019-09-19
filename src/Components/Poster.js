@@ -32,7 +32,8 @@ const ImageContainer = styled.span`
 	font-size: 12px;
 	overflow: hidden;
 	border-radius: 4px;
-	&:hover {
+	&:hover,
+	&:focus {
 		${Image} {
 			opacity: 0.5;
 		}

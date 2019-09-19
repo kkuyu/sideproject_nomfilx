@@ -10,8 +10,25 @@ export default class extends React.Component {
 			result: null,
 			error: null,
 			loading: true,
-			isMovie: pathname.includes("/movie/")
+			isMovie: pathname.includes("/movie/"),
+			isModalOpen: false
 		};
+	}
+
+	handleOpenModal = (event) => {
+		event.preventDefault();
+		this.props.history.push('?modal');
+		this.setState({
+			isModalOpen: true
+		})
+	}
+  
+	handleCloseModal = (event) => {
+		event.preventDefault();
+		this.props.history.goBack();
+		this.setState({
+			isModalOpen: false
+		})
 	}
 
 	async componentDidMount() {
@@ -41,7 +58,7 @@ export default class extends React.Component {
 	}
 
 	render() {
-		const { result, error, loading, isMovie } = this.state;
-		return <DetailPresenter result={result} error={error} loading={loading} isMovie={isMovie} />;
+		const { result, error, loading, isMovie, isModalOpen } = this.state;
+		return <DetailPresenter result={result} error={error} loading={loading} isMovie={isMovie} isModalOpen={isModalOpen} handleOpenModal={this.handleOpenModal} handleCloseModal={this.handleCloseModal} />;
 	}
 }
