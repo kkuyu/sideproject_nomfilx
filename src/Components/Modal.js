@@ -5,17 +5,13 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes as faClose } from '@fortawesome/free-solid-svg-icons';
 
-const Container = styled.div`
+const Container = styled.aside`
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100vw;
 	height: 100vh;
 	z-index: 999;
-`;
-const ModalDim = styled.div`
-	width: 100vw;
-	height: 100vh;
 	background: rgba(0, 0, 0, 0.6);
 `;
 const ModalContent = styled.div`
@@ -37,19 +33,26 @@ const CloseButton = styled.button`
 	color: #fff;
 `;
 
-const Modal = ({ handleCloseModal}) => (
-	<Container>
-		<ModalDim onClick={handleCloseModal} />
-		<ModalContent>
-			<CloseButton onClick={handleCloseModal}>
+const Modal = ({ modalRef, handleModalClose, handleOnClick, handleKeyDown, children }) => (
+	<Container aria-modal="true" onClick={handleOnClick} onKeyDown={(event) => handleKeyDown(event)}>
+		<ModalContent ref={modalRef} tabIndex="0">
+			{children}
+			<CloseButton onClick={handleModalClose} aria-label="Close Modal">
 				<FontAwesomeIcon icon={ faClose } className="faClose" />
 			</CloseButton>
 		</ModalContent>
+		{/* <ModalDim onClick={handleModalClose} /> */}
 	</Container>
-);
+)
 
 Modal.prototype = {
-	handleCloseModal: PropTypes.func
+	modalRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+	handleModalClose: PropTypes.func,
+	handleKeyDown: PropTypes.func,
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node
+	])
 };
 
 export default Modal;

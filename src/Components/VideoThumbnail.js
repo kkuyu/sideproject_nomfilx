@@ -51,25 +51,24 @@ const ImageContainer = styled.span`
 	}
 `;
 
-const VideoThumbnail = ({handleOpenModal, videoIndex, videoType, videoId, videoName}) => (
-	<Container onClick={handleOpenModal}>
+const VideoThumbnail = ({ handleModalOpen, videoArray, index, type, youtubeKey }) => (
+	<Container ref={ref => (videoArray[index] = ref)} onClick={() => handleModalOpen({ type: "video", key: youtubeKey })}>
 		<ImageContainer>
 			<Tag>
 				<FontAwesomeIcon icon={ faPlay } className="faPlay" />
-				{videoIndex < 10 ? `0${videoIndex}` : videoIndex} {videoType}
+				{index < 10 ? `0${index}` : index} {type}
 			</Tag>
-			<Image src={videoId ? `http://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : require("../assets/noPoster.png")} alt={videoName} />
+			<Image src={youtubeKey ? `http://i.ytimg.com/vi/${youtubeKey}/hqdefault.jpg` : require("../assets/noPoster.png")} alt="" />
 		</ImageContainer>
 	</Container>
 );
 
 VideoThumbnail.prototype = {
-	isModalOpen: PropTypes.bool,
 	handleOpenModal: PropTypes.func,
-	videoIndex: PropTypes.number.isRequired,
-	videoType: PropTypes.string.isRequired,
-	videoId: PropTypes.string.isRequired,
-	videoName: PropTypes.string.isRequired
+	videoArray: PropTypes.array,
+	index: PropTypes.number.isRequired,
+	type: PropTypes.string.isRequired,
+	youtubeKey: PropTypes.string.isRequired
 };
 
 export default VideoThumbnail;

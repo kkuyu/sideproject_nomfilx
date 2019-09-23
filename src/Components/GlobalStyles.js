@@ -10,6 +10,9 @@ const globalStyle = createGlobalStyle`
 	*{
 		box-sizing: border-box;
 	}
+	html.scroll-lock {
+		overflow: hidden;
+	}
 	body{
 		padding-left: 250px;
 		font-size: 14px;

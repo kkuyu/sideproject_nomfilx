@@ -6,8 +6,11 @@ import Helmet from "react-helmet";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
 import Section from "Components/Section";
-import VideoThumbnail from "Components/VideoThumbnail";
+
+import ModalPortal from "Components/ModalPortal";
 import Modal from "Components/Modal";
+
+import VideoThumbnail from "Components/VideoThumbnail";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarSolid, faStarHalfAlt as faStarHalf } from '@fortawesome/free-solid-svg-icons';
@@ -140,7 +143,7 @@ const Content = styled.article`
 	padding: 55px;
 `;
 
-const HomePresenter = ({ result, error, loading, isMovie, isModalOpen, handleOpenModal, handleCloseModal }) => (
+const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie, isModalOpen, handleModalOpen, handleModalClose, handleOnClick, handleKeyDown }) => (
 	loading ? <>
 		<Helmet>
 			<title>Loading | Nomfilx</title>
@@ -153,7 +156,6 @@ const HomePresenter = ({ result, error, loading, isMovie, isModalOpen, handleOpe
 			</Helmet>
 			<Container>
 				<Info>
-					<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
 					<InfoData>
 						<StarContainer>
 							<Star>
@@ -182,13 +184,14 @@ const HomePresenter = ({ result, error, loading, isMovie, isModalOpen, handleOpe
 						</HyperlinkContainer>
 					</InfoData>
 					<Cover src={result.poster_path ? `https://image.tmdb.org/t/p/w500/${result.poster_path}` : require("../../assets/noPoster.png")} alt="" />
+					<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
 				</Info>
 				<Content>
 					{/* Collection */}
 
 					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
 						{result.videos.results.map((video,index) => 
-							video.site === "YouTube" && <VideoThumbnail handleOpenModal={handleOpenModal} videoIndex={index+1} videoType={video.type} videoId={video.key} videoName={video.name} />
+							video.site === "YouTube" && <VideoThumbnail key={index} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} youtubeKey={video.key} />
 						)}
 					</Section>}
 
@@ -196,20 +199,28 @@ const HomePresenter = ({ result, error, loading, isMovie, isModalOpen, handleOpe
 				</Content>
 			</Container>
 
-			{ isModalOpen && <Modal handleCloseModal={handleCloseModal} /> }
+			{ isModalOpen && <ModalPortal>
+				<Modal modalRef={modalRef} handleModalClose={handleModalClose} handleOnClick={handleOnClick} handleKeyDown={handleKeyDown}>
+					Modal Content
+				</Modal>
+			</ModalPortal>}
 
 		</> }
 	</>
 )
 
-HomePresenter.propTypes = {
+DetailPresenter.propTypes = {
+	modalRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+	videoArray: PropTypes.array,
 	result: PropTypes.object,
 	error: PropTypes.string,
 	loading: PropTypes.bool.isRequired,
 	isMovie: PropTypes.bool.isRequired,
 	isModalOpen: PropTypes.bool,
-	handleOpenModal: PropTypes.func,
-	handleCloseModal: PropTypes.func
+	handleModalOpen: PropTypes.func,
+	handleModalClose: PropTypes.func,
+	handleOnClick: PropTypes.func,
+	handleKeyDown: PropTypes.func,
 };
 
-export default HomePresenter;
+export default DetailPresenter;
