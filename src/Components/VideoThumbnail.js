@@ -52,7 +52,7 @@ const ImageContainer = styled.span`
 `;
 
 const VideoThumbnail = ({ handleModalOpen, videoArray, index, type, youtubeKey }) => (
-	<Container ref={ref => (videoArray[index] = ref)} onClick={() => handleModalOpen({ type: "video", key: youtubeKey })}>
+	<Container ref={ref => videoArray[index] = ref} data-youtube-key={youtubeKey} onClick={() => handleModalOpen({ type: "video", key: youtubeKey })}>
 		<ImageContainer>
 			<Tag>
 				<FontAwesomeIcon icon={ faPlay } className="faPlay" />

@@ -21,37 +21,77 @@ export default class extends React.Component {
 		};
 	}
 
-	handleModalOpen = (modalType) => {
-		let queryParameter = "#modal";
-		if(Object.keys(modalType).length) {
-			for(let key in modalType){
-				queryParameter += `&${key}=${modalType[key]}`;
-			}
-		}
-		this.props.history.push(queryParameter);
+	// Fixed Screen.
+	toggleScrollLock = () => document.querySelector('html').classList.toggle("scroll-lock");
+
+	// Open the modal and add focus.
+	modalOpen = () => {
 		this.setState({
 			isModalOpen: true
 		}, () => this.modalRef.current.focus());
 		this.toggleScrollLock();
-	};
+	}
 
-	handleModalClose = () => {
-		const { location: { pathname } } = this.props;
-		this.props.history.push(pathname);
+	// Close the modal.
+	modalClose = () => {
 		this.setState({
 			isModalOpen: false
 		});
 		this.toggleScrollLock();
+	}
+
+	// Add Modal Hash.
+	handleModalOpen = (modalType) => {
+		let hashString = "#modal";
+		if(Object.keys(modalType).length) {
+			for(let key in modalType){
+				hashString += `&${key}=${modalType[key]}`;
+			}
+		}
+		this.props.history.push(hashString);
 	};
 
+	// Remove Modal Hash.
+	handleModalClose = () => {
+		const { location: { pathname } } = this.props;
+		this.props.history.push(pathname);
+	};
+
+	// Click on an area other than modal.
 	handleOnClick = (event) => {
 		if (this.modalRef && this.modalRef.current.contains(event.target)) return;
 		this.handleModalClose();
 	}
 
+	// Press the esc key.
 	handleKeyDown = (event) => event.keyCode === 27 && this.handleModalClose();
 
-	toggleScrollLock = () => document.querySelector('html').classList.toggle("scroll-lock");
+	// Check Hash to show or close Modal.
+	modalHashCheck = () => {
+		const {
+			location: { hash }
+		} = this.props;
+
+		if(hash === "" && !this.state.isModalOpen) return false;
+
+		if ( hash.includes("#modal") ) {
+			const hashArray = hash.split("&");
+			this.modalContentType = hashArray.find(item => item.includes("type=")).split("type=")[1];
+			this.currentVideoKey = hashArray.find(item => item.includes("key=")).split("key=")[1];
+			if (this.modalContentType === "video" && this.currentVideoKey) {
+				this.modalOpen();
+			} else {
+				this.handleModalClose(); // It's not a valid hash.
+			}
+		} else {
+			this.modalClose();
+			if (this.modalContentType === "video" && this.currentVideoKey){
+				this.videoArray.find(video => video.dataset.youtubeKey === this.currentVideoKey).focus(); // Put the focus in the same element with the video key.
+			}
+			this.modalContentType = null;
+			this.currentVideoKey = null;
+		}
+	}
 
 	async componentDidMount() {
 		const {
@@ -61,7 +101,7 @@ export default class extends React.Component {
 		const { isMovie } = this.state;
 		const parsedId = parseInt(id);
 		if( isNaN(parsedId) ) return push("/");
-		
+
 		try {
 			const { data: result } = isMovie ? await moviesApi.movieDetail(parsedId) : await tvApi.showDetail(parsedId);
 			this.setState({
@@ -75,6 +115,16 @@ export default class extends React.Component {
 			this.setState({
 				loading: false
 			});
+		}
+
+		// First run after page lander
+		this.modalHashCheck();
+	}
+
+	componentDidUpdate(prevProps){
+		// Run whenever location hash changes.
+		if (this.props.location.hash !== prevProps.location.hash) {
+			this.modalHashCheck();
 		}
 	}
 
