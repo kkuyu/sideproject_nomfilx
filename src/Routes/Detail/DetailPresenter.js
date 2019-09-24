@@ -191,7 +191,7 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 
 					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
 						{result.videos.results.map((video,index) => 
-							video.site === "YouTube" && <VideoThumbnail key={index} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} youtubeKey={video.key} />
+							video.site === "YouTube" && <VideoThumbnail key={index} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} videoKey={video.key} />
 						)}
 					</Section>}
 
@@ -202,6 +202,8 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 			{ isModalOpen && <ModalPortal>
 				<Modal modalRef={modalRef} handleModalClose={handleModalClose} handleOnClick={handleOnClick} handleKeyDown={handleKeyDown}>
 					Modal Content
+					<a href="#">Modal Focus Test: link</a>
+					<button>Modal Focus Test: button</button>
 				</Modal>
 			</ModalPortal>}
 

@@ -6,6 +6,10 @@ export default class extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.El = {
+			html: document.querySelector("html"),
+			root: document.querySelector("#root")
+		};
 		this.videoArray = [];
 		this.modalRef = React.createRef();
 		this.modalContentType = null;
@@ -22,13 +26,17 @@ export default class extends React.Component {
 	}
 
 	// Fixed Screen.
-	toggleScrollLock = () => document.querySelector('html').classList.toggle("scroll-lock");
+	toggleScrollLock = () => this.El.html.classList.toggle("scroll-lock");
 
 	// Open the modal and add focus.
 	modalOpen = () => {
 		this.setState({
 			isModalOpen: true
-		}, () => this.modalRef.current.focus());
+		}, () => {
+			this.modalRef.current.focus();
+			this.El.root.setAttribute("tabindex", -1);
+			this.El.root.setAttribute("aria-hidden", true);
+		});
 		this.toggleScrollLock();
 	}
 
@@ -36,6 +44,9 @@ export default class extends React.Component {
 	modalClose = () => {
 		this.setState({
 			isModalOpen: false
+		}, () => {
+			this.El.root.removeAttribute("tabindex");
+			this.El.root.removeAttribute("aria-hidden");
 		});
 		this.toggleScrollLock();
 	}
@@ -63,8 +74,29 @@ export default class extends React.Component {
 		this.handleModalClose();
 	}
 
-	// Press the esc key.
-	handleKeyDown = (event) => event.keyCode === 27 && this.handleModalClose();
+	// Press the key.
+	handleKeyDown = (event) => {
+		const focusAbleEls = this.modalRef.current.querySelectorAll('a, button, textarea, input, *[tabindex]');
+		const firstFocusAbleEl = focusAbleEls[0];  
+		const lastFocusAbleEl = focusAbleEls[focusAbleEls.length - 1];
+
+		// Press the key "Esc".
+		if ( event.keyCode === 27 ) return this.handleModalClose();
+		// Press the key except "Tab".
+		if ( event.keyCode !== 9 ) return false;
+		
+		if ( event.shiftKey ) { // Press the key "Tab" + "Shift".
+			if (document.activeElement === firstFocusAbleEl) {
+				lastFocusAbleEl.focus();
+				event.preventDefault();
+			}
+		} else { // Press the key "Tab".
+			if (document.activeElement === lastFocusAbleEl) {
+				firstFocusAbleEl.focus();
+				event.preventDefault();
+			}
+		}
+	}
 
 	// Check Hash to show or close Modal.
 	modalHashCheck = () => {
@@ -86,7 +118,7 @@ export default class extends React.Component {
 		} else {
 			this.modalClose();
 			if (this.modalContentType === "video" && this.currentVideoKey){
-				this.videoArray.find(video => video.dataset.youtubeKey === this.currentVideoKey).focus(); // Put the focus in the same element with the video key.
+				this.videoArray.find(video => video.dataset.videoKey === this.currentVideoKey).focus(); // Put the focus in the same element with the video key.
 			}
 			this.modalContentType = null;
 			this.currentVideoKey = null;
