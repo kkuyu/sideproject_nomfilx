@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
+import Message from "Components/Message";
+
 const Container = styled.div``;
 const Video = styled.iframe``;
 const VideoContainer = styled.div`
@@ -45,18 +47,20 @@ const Item = styled.li`
 	}
 `;
 
-const VideoPlayer = ({currentVideoInfo}) => (
+const VideoPlayer = ({ currentVideoInfo=null }) => (
 	<Container tabIndex="0">
-		<VideoContainer bgUrl={currentVideoInfo.key ? `http://i.ytimg.com/vi/${currentVideoInfo.key}/hqdefault.jpg` : require("../assets/noPoster.png")}>
-			<Video src={`https://www.youtube.com/embed/${currentVideoInfo.key}?autoplay=1&controls=0&fs=0&modestbranding=1&origin=${window.location.origin}`} title={`${currentVideoInfo.name} video`} />
-		</VideoContainer>
-		<InfoContainer>
-			<Title>{currentVideoInfo.name}</Title>
-			{ (currentVideoInfo.type || currentVideoInfo.iso_639_1) && <List>
-				<Item>{currentVideoInfo.type}</Item>
-				<Item>{currentVideoInfo.iso_639_1}-{currentVideoInfo.iso_3166_1}</Item>
-			</List> }
-		</InfoContainer>
+		{ currentVideoInfo !== null ? <>
+			<VideoContainer bgUrl={currentVideoInfo.key ? `http://i.ytimg.com/vi/${currentVideoInfo.key}/hqdefault.jpg` : require("../assets/noPoster.png")}>
+				<Video src={`https://www.youtube.com/embed/${currentVideoInfo.key}?autoplay=1&controls=0&fs=0&modestbranding=1&origin=${window.location.origin}`} title={`${currentVideoInfo.name} video`} />
+			</VideoContainer>
+			<InfoContainer>
+				<Title>{currentVideoInfo.name}</Title>
+				{ (currentVideoInfo.type || currentVideoInfo.iso_639_1) && <List>
+					<Item>{currentVideoInfo.type}</Item>
+					<Item>{currentVideoInfo.iso_639_1}-{currentVideoInfo.iso_3166_1}</Item>
+				</List> }
+			</InfoContainer>
+		</> : <Message text="Invalid video key value accessed." color="#e74c3c" /> }
 	</Container>
 )
 

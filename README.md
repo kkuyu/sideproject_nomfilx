@@ -28,7 +28,8 @@ Try it on [Netlify](https://nomfilx.netlify.com/)
 
 ## Code Challenges
 - [x] IMDB Link
-- [ ] Tabs inside of Movie / Show Details ( Youtube Videos, Production Company & Countries )
+- [ ] Tabs inside of Movie / Show Details ( Production Company & Countries )
+- [x] Modal( YouTube Video )
 - [ ] Collections Link
 - [ ] /collection Route
 - [ ] On TV Show, seasons and creators

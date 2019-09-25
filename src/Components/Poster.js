@@ -68,7 +68,7 @@ const Poster = ({id, imageUrl, title, rating, year, isMovie=false}) => (
 		<Container>
 			<ImageContainer>
 				<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt={title} />
-				<Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" /> {rating}/10</Rating>
+				<Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" aria-label="Star Rating" /> {rating}/10</Rating>
 			</ImageContainer>
 			<TextContainer>
 				<Title>{title.length > 15 ? `${title.substring(0,20)}...` : title}</Title>
@@ -78,7 +78,7 @@ const Poster = ({id, imageUrl, title, rating, year, isMovie=false}) => (
 	</Link>
 );
 
-Poster.prototype = {
+Poster.prototypes = {
 	id: PropTypes.number.isRequired,
 	imageUrl: PropTypes.string,
 	title: PropTypes.string,

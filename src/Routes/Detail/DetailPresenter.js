@@ -141,7 +141,7 @@ const Hyperlink = styled.a`
 	}
 `;
 const Content = styled.article`
-	padding: 55px;
+	padding: 30px 55px;
 `;
 
 const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey, handleModalOpen, handleModalClose, handleOnClick, handleKeyDown }) => (
@@ -202,7 +202,7 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 
 			{ isModalOpen && <ModalPortal>
 				<Modal modalRef={modalRef} handleModalClose={handleModalClose} handleOnClick={handleOnClick} handleKeyDown={handleKeyDown}>
-					{ modalContentType === "video" && currentVideoKey && <VideoPlayer currentVideoInfo={result.videos.results.find(video => video.key === currentVideoKey)} /> }
+					{ modalContentType === "video" && currentVideoKey && <VideoPlayer currentVideoInfo={ result.videos.results.find(video => video.key === currentVideoKey) } /> }
 				</Modal>
 			</ModalPortal>}
 

@@ -122,7 +122,8 @@ export default class extends React.Component {
 		} else {
 			this.modalClose();
 			if (this.state.modalContentType === "video" && this.state.currentVideoKey){
-				this.videoArray.find(video => video.dataset.videoKey === this.state.currentVideoKey).focus(); // Put the focus in the same element with the video key.
+				const currentVideoItem = this.videoArray.find(video => video.dataset.videoKey === this.state.currentVideoKey) || null;
+				currentVideoItem && currentVideoItem.focus(); // Put the focus in the same element with the video key.
 			}
 			this.setState({
 				modalContentType: null,

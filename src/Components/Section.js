@@ -27,7 +27,7 @@ const Section = ({title, columnWidth, columnGap, children}) => (
 	</Container>
 );
 
-Section.prototype = {
+Section.prototypes = {
 	title: PropTypes.string.isRequired,
 	columnWidth: PropTypes.string,
 	columnGap: PropTypes.string,
