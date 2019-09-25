@@ -12,8 +12,6 @@ export default class extends React.Component {
 		};
 		this.videoArray = [];
 		this.modalRef = React.createRef();
-		this.modalContentType = null;
-		this.currentVideoKey = null;
 
 		const { location: { pathname } } = props;
 		this.state = {
@@ -21,7 +19,9 @@ export default class extends React.Component {
 			error: null,
 			loading: true,
 			isMovie: pathname.includes("/movie/"),
-			isModalOpen: false
+			isModalOpen: false,
+			modalContentType: null,
+			currentVideoKey: null
 		};
 	}
 
@@ -76,7 +76,7 @@ export default class extends React.Component {
 
 	// Press the key.
 	handleKeyDown = (event) => {
-		const focusAbleEls = this.modalRef.current.querySelectorAll('a, button, textarea, input, *[tabindex]');
+		const focusAbleEls = this.modalRef.current.querySelectorAll('a, button, textarea, input, *[tabIndex]');
 		const firstFocusAbleEl = focusAbleEls[0];  
 		const lastFocusAbleEl = focusAbleEls[focusAbleEls.length - 1];
 
@@ -104,24 +104,30 @@ export default class extends React.Component {
 			location: { hash }
 		} = this.props;
 
-		if(hash === "" && !this.state.isModalOpen) return false;
+		if ( hash === "" && !this.state.isModalOpen ) return false;
 
 		if ( hash.includes("#modal") ) {
 			const hashArray = hash.split("&");
-			this.modalContentType = hashArray.find(item => item.includes("type=")).split("type=")[1];
-			this.currentVideoKey = hashArray.find(item => item.includes("key=")).split("key=")[1];
-			if (this.modalContentType === "video" && this.currentVideoKey) {
+			const modalContentType = hashArray.find(item => item.includes("type=")).split("type=")[1];
+			const currentVideoKey = hashArray.find(item => item.includes("key=")).split("key=")[1];
+			if (modalContentType === "video" && currentVideoKey) {
+				this.setState({
+					modalContentType,
+					currentVideoKey
+				});
 				this.modalOpen();
 			} else {
 				this.handleModalClose(); // It's not a valid hash.
 			}
 		} else {
 			this.modalClose();
-			if (this.modalContentType === "video" && this.currentVideoKey){
-				this.videoArray.find(video => video.dataset.videoKey === this.currentVideoKey).focus(); // Put the focus in the same element with the video key.
+			if (this.state.modalContentType === "video" && this.state.currentVideoKey){
+				this.videoArray.find(video => video.dataset.videoKey === this.state.currentVideoKey).focus(); // Put the focus in the same element with the video key.
 			}
-			this.modalContentType = null;
-			this.currentVideoKey = null;
+			this.setState({
+				modalContentType: null,
+				currentVideoKey: null
+			});
 		}
 	}
 
@@ -161,10 +167,10 @@ export default class extends React.Component {
 	}
 
 	render() {
-		const { result, error, loading, isMovie, isModalOpen } = this.state;
+		const { result, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey } = this.state;
 		return <DetailPresenter
 			modalRef={this.modalRef} videoArray={this.videoArray}
-			result={result} error={error} loading={loading} isMovie={isMovie} isModalOpen={isModalOpen}
+			result={result} error={error} loading={loading} isMovie={isMovie} isModalOpen={isModalOpen} modalContentType={modalContentType} currentVideoKey={currentVideoKey}
 			handleModalOpen={this.handleModalOpen} handleModalClose={this.handleModalClose} handleOnClick={this.handleOnClick} handleKeyDown={this.handleKeyDown}
 		/>;
 	}

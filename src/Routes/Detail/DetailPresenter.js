@@ -11,6 +11,7 @@ import ModalPortal from "Components/ModalPortal";
 import Modal from "Components/Modal";
 
 import VideoThumbnail from "Components/VideoThumbnail";
+import VideoPlayer from "Components/VideoPlayer";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarSolid, faStarHalfAlt as faStarHalf } from '@fortawesome/free-solid-svg-icons';
@@ -143,7 +144,7 @@ const Content = styled.article`
 	padding: 55px;
 `;
 
-const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie, isModalOpen, handleModalOpen, handleModalClose, handleOnClick, handleKeyDown }) => (
+const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey, handleModalOpen, handleModalClose, handleOnClick, handleKeyDown }) => (
 	loading ? <>
 		<Helmet>
 			<title>Loading | Nomfilx</title>
@@ -158,12 +159,12 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 				<Info>
 					<InfoData>
 						<StarContainer>
-							<Star>
+							<Star aria-label={`Star Rating ${ result.vote_average }/10`}>
 								{ Array(parseInt(result.vote_average/2)).fill(null).map((i,index) => <FontAwesomeIcon key={index} icon={ faStarSolid } className="faStarSolid" /> ) }
 								{ Array(parseInt(result.vote_average%2)).fill(null).map((i,index) => <FontAwesomeIcon key={index} icon={ faStarHalf } className="faStarHalf" /> ) }
 								{ Array(5 - Math.round(result.vote_average/2)).fill(null).map((i,index) => <FontAwesomeIcon key={index} icon={ faStarRegular } className="faStarRegular" /> ) }
 							</Star>
-							<Rating>{result.vote_average}</Rating>
+							<Rating aria-hidden="true">{result.vote_average}</Rating>
 						</StarContainer>
 						<Title>{isMovie ? result.original_title : result.original_name}</Title>
 						<ItemContainer>
@@ -201,9 +202,7 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 
 			{ isModalOpen && <ModalPortal>
 				<Modal modalRef={modalRef} handleModalClose={handleModalClose} handleOnClick={handleOnClick} handleKeyDown={handleKeyDown}>
-					Modal Content
-					<a href="#">Modal Focus Test: link</a>
-					<button>Modal Focus Test: button</button>
+					{ modalContentType === "video" && currentVideoKey && <VideoPlayer currentVideoInfo={result.videos.results.find(video => video.key === currentVideoKey)} /> }
 				</Modal>
 			</ModalPortal>}
 
@@ -219,10 +218,12 @@ DetailPresenter.propTypes = {
 	loading: PropTypes.bool.isRequired,
 	isMovie: PropTypes.bool.isRequired,
 	isModalOpen: PropTypes.bool,
+	modalContentType: PropTypes.string,
+	currentVideoKey: PropTypes.string,
 	handleModalOpen: PropTypes.func,
 	handleModalClose: PropTypes.func,
 	handleOnClick: PropTypes.func,
-	handleKeyDown: PropTypes.func,
+	handleKeyDown: PropTypes.func
 };
 
 export default DetailPresenter;

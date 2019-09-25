@@ -12,7 +12,7 @@ const Container = styled.aside`
 	width: 100vw;
 	height: 100vh;
 	z-index: 999;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgba(0, 0, 0, 0.7);
 `;
 const ModalContent = styled.div`
 	position: absolute;
@@ -21,16 +21,21 @@ const ModalContent = styled.div`
 	width: 60%;
 	min-height: 300px;
 	border: 2px solid #ea0037;
-	border-radius: 10px;
-	overflow: hidden;
+	background: #121317;
 	transform: translate(-50%, -50%);
 `;
 const CloseButton = styled.button`
 	position: absolute;
-	top: 15px;
-	right: 15px;
+	top: 2px;
+	right: -40px;
+	width: 30px;
 	font-size: 30px;
+	text-align: center;
 	color: #fff;
+	&:hover,
+	&:focus {
+		color: #ea0037;
+	}
 `;
 
 const Modal = ({ modalRef, handleModalClose, handleOnClick, handleKeyDown, children }) => (
@@ -38,14 +43,13 @@ const Modal = ({ modalRef, handleModalClose, handleOnClick, handleKeyDown, child
 		<ModalContent ref={modalRef} tabIndex="0">
 			{children}
 			<CloseButton onClick={handleModalClose} aria-label="Close Modal">
-				<FontAwesomeIcon icon={ faClose } className="faClose" />
+				<FontAwesomeIcon icon={ faClose } className="faClose" aria-label="Modal Close" />
 			</CloseButton>
 		</ModalContent>
-		{/* <ModalDim onClick={handleModalClose} /> */}
 	</Container>
 )
 
-Modal.prototype = {
+Modal.prototypes = {
 	modalRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 	handleModalClose: PropTypes.func,
 	handleKeyDown: PropTypes.func,
