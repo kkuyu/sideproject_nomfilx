@@ -193,8 +193,8 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 
 					{ isMovie && ( result.production_companies || result.production_countries ) && <Section title="Production" columnWidth="100%" columnGap="0">
 						<Tab title="Production List" items={[
-							{ name: "Countries", content: (result.production_countries) ? result.production_countries.map(countries => countries.name) : "No Countries information registered." },
-							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." }
+							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." },
+							{ name: "Countries", content: (result.production_countries) ? result.production_countries.map(countries => countries.iso_3166_1) : "No Countries information registered." }
 						]} />
 					</Section>}
 
@@ -202,8 +202,8 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 
 					{ !isMovie && ( result.production_companies ) && <Section title="Production" columnWidth="100%" columnGap="0">
 						<Tab title="Production List" items={[
-							{ name: "Countries", content: (result.production_companies) ? Array.from(new Set(result.production_companies.map(companies => companies.origin_country))) : "No Countries information registered." },
-							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." }
+							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." },
+							{ name: "Countries", content: (result.production_companies) ? Array.from(new Set(result.production_companies.map(companies => companies.origin_country))) : "No Countries information registered." }
 						]} />
 					</Section>}
 

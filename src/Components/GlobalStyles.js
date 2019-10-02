@@ -17,9 +17,9 @@ const globalStyle = createGlobalStyle`
 		padding-left: 250px;
 		font-size: 14px;
 		line-height: 1.2;
-		color: white;
-		background-color: #1b1c20;
+		color: #fff;
 		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		background-color: #1b1c20;
 	}
 	img {
 		display: inline-block;
@@ -27,8 +27,8 @@ const globalStyle = createGlobalStyle`
 	}
 	button {
 		padding: 0;
-		line-height: 1.2;
 		text-align: left;
+		color: #fff;
 		border: none;
 		background: transparent;
 		cursor: pointer;

@@ -23,7 +23,7 @@ const LogoLink = styled(Link)`
 	align-items: center;
 	justify-content: center;
 `;
-const GnbList = styled.div`
+const GnbList = styled.nav`
 	margin-top: 26px;
 `;
 const ListName = styled.strong`
