@@ -6,6 +6,7 @@ import Helmet from "react-helmet";
 import Loader from "Components/Loader";
 import Message from "Components/Message";
 import Section from "Components/Section";
+import Tab from "Components/Tab";
 
 import ModalPortal from "Components/ModalPortal";
 import Modal from "Components/Modal";
@@ -190,13 +191,28 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 				<Content>
 					{/* Collection */}
 
+					{ isMovie && ( result.production_companies || result.production_countries ) && <Section title="Production" columnWidth="100%" columnGap="0">
+						<Tab title="Production List" items={[
+							{ name: "Countries", content: (result.production_countries) ? result.production_countries.map(countries => countries.name) : "No Countries information registered." },
+							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." }
+						]} />
+					</Section>}
+
+					{console.log(new Set(result.production_companies.map(companies => companies.origin_country)))}
+
+					{ !isMovie && ( result.production_companies ) && <Section title="Production" columnWidth="100%" columnGap="0">
+						<Tab title="Production List" items={[
+							{ name: "Countries", content: (result.production_companies) ? Array.from(new Set(result.production_companies.map(companies => companies.origin_country))) : "No Countries information registered." },
+							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." }
+						]} />
+					</Section>}
+
 					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
 						{result.videos.results.map((video,index) => 
 							video.site === "YouTube" && <VideoThumbnail key={index} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} videoKey={video.key} />
 						)}
 					</Section>}
 
-					{/* Production Company & Countries */}
 				</Content>
 			</Container>
 

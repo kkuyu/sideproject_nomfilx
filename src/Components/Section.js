@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const Container = styled.section`
 	& + & {
-		margin-top:50px;
+		margin-top:70px;
 	}
 `;
 
