@@ -38,7 +38,7 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 				<DetailInfo
 					voteAverage={result.vote_average} title={isMovie ? result.original_title : result.original_name} releaseDate={isMovie ? result.release_date : result.first_air_date}
 					runtime={isMovie ? result.runtime : result.episode_run_time[0]} genres={result.genres} tagline={result.tagline} overview={result.overview}
-					imdbId={result.imdb_id} homepageUrl={result.homepage} posterPath={result.poster_path} backdropPath={result.backdrop_path}
+					imdbId={result.imdb_id} homepageUrl={result.homepage} imageUrl={result.poster_path} backdropUrl={result.backdrop_path}
 				/>
 				<Content>
 

@@ -115,7 +115,7 @@ const Hyperlink = styled.a`
 	}
 `;
 
-const DetailInfo = ({ voteAverage, title, releaseDate, runtime, genres, tagline, overview, imdbId, homepageUrl, posterPath, backdropPath }) => (
+const DetailInfo = ({ voteAverage, title, releaseDate, runtime, genres, tagline, overview, imdbId, homepageUrl, imageUrl, backdropUrl }) => (
 	<Container>
 		<InfoData>
 			{voteAverage && <StarRating voteAverage={voteAverage} />}
@@ -137,8 +137,8 @@ const DetailInfo = ({ voteAverage, title, releaseDate, runtime, genres, tagline,
 				{homepageUrl && <Hyperlink href={homepageUrl} target="_blank" rel="noopener noreferrer" title={`Hyperlink to ${title} homepage`}>Homepage</Hyperlink>}
 			</HyperlinkContainer>}
 		</InfoData>
-		<Cover src={posterPath ? `https://image.tmdb.org/t/p/w500/${posterPath}` : require("../assets/noPoster.png")} alt="" />
-		{backdropPath && <Backdrop bgImage={`https://image.tmdb.org/t/p/original/${backdropPath}`} />}
+		<Cover src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt="" />
+		{backdropUrl && <Backdrop bgImage={`https://image.tmdb.org/t/p/original/${backdropUrl}`} />}
 	</Container>
 );
 
@@ -152,8 +152,8 @@ DetailInfo.prototypes = {
 	overview: PropTypes.string,
 	imdbId: PropTypes.string,
 	homepageUrl: PropTypes.string,
-	posterPath: PropTypes.string,
-	backdropPath: PropTypes.string
+	imageUrl: PropTypes.string,
+	backdropUrl: PropTypes.string
 };
 
 export default DetailInfo;

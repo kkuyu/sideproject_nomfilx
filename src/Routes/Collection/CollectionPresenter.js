@@ -7,9 +7,13 @@ import Loader from "Components/Loader";
 import Message from "Components/Message";
 import DetailInfo from "Components/DetailInfo";
 import Section from "Components/Section";
+import PosterCard from "Components/PosterCard";
 
 const Container = styled.div`
 	width: 100%;
+`;
+const Content = styled.article`
+	padding: 30px 55px;
 `;
 
 const CollectionPresenter = ({ result, error, loading }) => (
@@ -24,7 +28,13 @@ const CollectionPresenter = ({ result, error, loading }) => (
 				<title>{result.name} | Nomfilx</title>
 			</Helmet>
 			<Container>
-				<DetailInfo title={result.name} overview={result.overview} posterPath={result.poster_path} />
+				{console.log(result.parts[0])}
+				<DetailInfo title={result.name} overview={result.overview} imageUrl={result.poster_path} />
+				<Content>
+					{result.parts && result.parts.length > 0 && <Section title="Part" columnWidth="375px">
+						{result.parts.map(part => <PosterCard key={part.id} imageUrl={part.poster_path} title={part.title} overview={part.overview} releaseDate={part.release_date} />)}
+					</Section>}
+				</Content>
 			</Container>
 		</> }
 	</>
