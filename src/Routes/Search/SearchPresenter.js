@@ -33,10 +33,10 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, 
 		</Form>
 		{loading ? <Loader /> : <>
 			{ movieResults && movieResults.length > 0 && <Section title="Movie Result">{movieResults.map(movie => 
-				<Poster key={movie.id} id={movie.id} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} isMovie={true} />
+				<Poster key={movie.id} linkTo={`/movie/${movie.id}`} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} />
 			)}</Section> }
 			{ tvResults && tvResults.length > 0 && <Section title="TV Show Result">{tvResults.map(show => 
-				<Poster key={show.id} id={show.id} imageUrl={show.poster_path} title={show.original_name} rating={show.vote_average} year={show.first_air_date && show.first_air_date.substring(0,4)} isMovie={false} />
+				<Poster key={show.id} linkTo={`/show/${show.id}`} imageUrl={show.poster_path} title={show.original_name} rating={show.vote_average} year={show.first_air_date && show.first_air_date.substring(0,4)} />
 			)}</Section> }
 			{ error && <Message text={error} color="#e74c3c" /> }
 			{ movieResults && movieResults.length === 0 && tvResults && tvResults.length === 0 && <Message text="Nothing Found." color="#95a5a6" /> }

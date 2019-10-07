@@ -63,8 +63,8 @@ const TextContainer = styled.div`
 	margin-top: 5px;
 `;
 
-const Poster = ({id, imageUrl, title, rating, year, isMovie=false}) => (
-	<Link to={ isMovie ? `/movie/${id}` : `/show/${id}` }>
+const Poster = ({linkTo, imageUrl, title, rating, year}) => (
+	<Link to={linkTo}>
 		<Container>
 			<ImageContainer>
 				<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt={title} />
@@ -79,12 +79,11 @@ const Poster = ({id, imageUrl, title, rating, year, isMovie=false}) => (
 );
 
 Poster.prototypes = {
-	id: PropTypes.number.isRequired,
+	linkTo: PropTypes.number.isRequired,
 	imageUrl: PropTypes.string,
 	title: PropTypes.string,
 	rating: PropTypes.number,
-	year: PropTypes.string,
-	isMovie: PropTypes.bool
+	year: PropTypes.string
 };
 
 export default Poster;

@@ -21,13 +21,13 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, error, loading }) => <>
 		<Container>
 			<Heading className="hidden">Movie List</Heading>
 			{ nowPlaying && nowPlaying.length > 0 && <Section title="Now Playing">{nowPlaying.map(movie =>
-				<Poster key={movie.id} id={movie.id} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} isMovie={true} />
+				<Poster key={movie.id} linkTo={`/movie/${movie.id}`} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} />
 			)}</Section> }
 			{ upcoming && upcoming.length > 0 && <Section title="Upcoming Movies">{upcoming.map(movie =>
-				<Poster key={movie.id} id={movie.id} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} isMovie={true} />
+				<Poster key={movie.id} linkTo={`/movie/${movie.id}`} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} />
 			)}</Section> }
 			{ popular && popular.length > 0 && <Section title="Popular Movies">{popular.map(movie =>
-				<Poster key={movie.id} id={movie.id} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} isMovie={true} />
+				<Poster key={movie.id} linkTo={`/movie/${movie.id}`} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} />
 			)}</Section> }
 			{ error && <Message text={error} color="#e74c3c" /> }
 		</Container>

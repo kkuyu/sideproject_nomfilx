@@ -5,6 +5,7 @@ import Helmet from "react-helmet";
 
 import Loader from "Components/Loader";
 import Message from "Components/Message";
+import Poster from "Components/Poster";
 import Section from "Components/Section";
 import Tab from "Components/Tab";
 
@@ -189,7 +190,10 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 					<Backdrop bgImage={`https://image.tmdb.org/t/p/original/${result.backdrop_path}`} />
 				</Info>
 				<Content>
-					{/* Collection */}
+
+					{ isMovie && result.belongs_to_collection && <Section title="Collection">
+						<Poster linkTo={`/movie/${result.id}/collection/${result.belongs_to_collection.id}`} imageUrl={result.belongs_to_collection.poster_path} title={result.belongs_to_collection.name} />
+					</Section>}
 
 					{ isMovie && ( result.production_companies || result.production_countries ) && <Section title="Production" columnWidth="100%" columnGap="0">
 						<Tab title="Production List" items={[
@@ -197,8 +201,6 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 							{ name: "Countries", content: (result.production_countries) ? result.production_countries.map(countries => countries.iso_3166_1) : "No Countries information registered." }
 						]} />
 					</Section>}
-
-					{console.log(new Set(result.production_companies.map(companies => companies.origin_country)))}
 
 					{ !isMovie && ( result.production_companies ) && <Section title="Production" columnWidth="100%" columnGap="0">
 						<Tab title="Production List" items={[

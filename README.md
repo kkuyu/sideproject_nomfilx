@@ -30,6 +30,6 @@ Try it on [Netlify](https://nomfilx.netlify.com/)
 - [x] IMDB Link
 - [x] Tabs inside of Movie / Show Details ( Production Company & Countries )
 - [x] Modal( YouTube Video )
-- [ ] Collections Link
-- [ ] /collection Route
+- [x] On Movie, Collections Link
+- [x] On Movie, /collection Route
 - [ ] On TV Show, seasons and creators
