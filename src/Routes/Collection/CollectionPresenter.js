@@ -5,6 +5,7 @@ import Helmet from "react-helmet";
 
 import Loader from "Components/Loader";
 import Message from "Components/Message";
+import DetailInfo from "Components/DetailInfo";
 import Section from "Components/Section";
 
 const Container = styled.div`
@@ -23,7 +24,7 @@ const CollectionPresenter = ({ result, error, loading }) => (
 				<title>{result.name} | Nomfilx</title>
 			</Helmet>
 			<Container>
-				{result.name}
+				<DetailInfo title={result.name} overview={result.overview} posterPath={result.poster_path} />
 			</Container>
 		</> }
 	</>
