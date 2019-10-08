@@ -127,9 +127,9 @@ const DetailInfo = ({ voteAverage, title, releaseDate, runtime, genres, tagline,
 				{genres && genres.length > 0 && <Item>{genres.map((genre, index) => <Genre key={index}>{genre.name}</Genre>)}</Item>}
 			</ItemContainer>}
 
-			{(tagline || overview) && <Overview>
+			{<Overview>
 				{tagline && <Tagline>&ldquo; {tagline} &rdquo;</Tagline>}
-				<Synopsis>{overview ? overview : "No synopsis registered"}</Synopsis>
+				<Synopsis>{overview.length > 0 ? overview : "No synopsis registered."}</Synopsis>
 			</Overview>}
 
 			{(imdbId || homepageUrl) && <HyperlinkContainer>

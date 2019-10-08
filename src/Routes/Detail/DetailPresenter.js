@@ -46,6 +46,10 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 						<Poster linkTo={`/movie/${result.id}/collection/${result.belongs_to_collection.id}`} imageUrl={result.belongs_to_collection.poster_path} title={result.belongs_to_collection.name} />
 					</Section>}
 
+					{ !isMovie && result.seasons && result.seasons.length > 0 && <Section title="Seasons">
+						{ result.seasons.map(season => <Poster key={season.id} linkTo={`/show/${result.id}/season/${season.season_number}`} imageUrl={season.poster_path} title={season.name} />) }
+					</Section>}
+
 					{ isMovie && ( result.production_companies || result.production_countries ) && <Section title="Production" columnWidth="100%" columnGap="0">
 						<Tab title="Production List" items={[
 							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." },

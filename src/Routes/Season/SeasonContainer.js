@@ -1,29 +1,28 @@
 import React from "react";
-import CollectionPresenter from "./CollectionPresenter";
-import { moviesApi } from "api";
+import SeasonPresenter from "./SeasonPresenter";
+import { tvApi } from "api";
 
 export default class extends React.Component {
 	constructor(props) {
 		super(props);
-		const { location: { pathname } } = props;
 		this.state = {
 			result: null,
 			error: null,
-			loading: true,
-			isMovie: pathname.includes("/movie/")
+			loading: true
 		};
 	}
 
 	async componentDidMount() {
 		const {
-			match: { params: { number } },
+			match: { params: { id, number } },
 			history: { push }
 		} = this.props;
+		const parsedId = parseInt(id);
 		const parsedNumber = parseInt(number);
-		if( isNaN(parsedNumber) ) return push("/");
+		if( isNaN(parsedId) || isNaN(parsedNumber) ) return push("/");
 
 		try {
-			const { data: result } = await moviesApi.collection(parsedNumber);
+			const { data: result } = await tvApi.season(parsedId, parsedNumber);
 			this.setState({
 				result
 			});
@@ -40,6 +39,6 @@ export default class extends React.Component {
 
 	render() {
 		const { result, error, loading, isMovie } = this.state;
-		return <CollectionPresenter result={result} error={error} loading={loading} isMovie={isMovie} />;
+		return <SeasonPresenter result={result} error={error} loading={loading} isMovie={isMovie} />;
 	}
 }

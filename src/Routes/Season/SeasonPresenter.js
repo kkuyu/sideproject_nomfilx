@@ -16,7 +16,7 @@ const Content = styled.article`
 	padding: 30px 55px;
 `;
 
-const CollectionPresenter = ({ result, error, loading }) => (
+const SeasonPresenter = ({ result, error, loading }) => (
 	loading ? <>
 		<Helmet>
 			<title>Loading | Nomfilx</title>
@@ -28,10 +28,10 @@ const CollectionPresenter = ({ result, error, loading }) => (
 				<title>{result.name} | Nomfilx</title>
 			</Helmet>
 			<Container>
-				<DetailInfo title={result.name} overview={result.overview} imageUrl={result.poster_path} backdropUrl={result.backdrop_path} />
+				<DetailInfo title={result.name} overview={result.overview} releaseDate={result.air_date} imageUrl={result.poster_path} />
 				<Content>
-					{result.parts && result.parts.length > 0 && <Section title="Part" columnWidth="450px">
-						{result.parts.map(part => <PosterCard key={part.id} imageUrl={part.backdrop_path} title={part.title} overview={part.overview} releaseDate={part.release_date} />)}
+					{result.episodes && result.episodes.length > 0 && <Section title="Episodes" columnWidth="450px">
+						{result.episodes.map(episode => <PosterCard key={episode.id} imageUrl={episode.still_path} title={episode.name} overview={episode.overview} releaseDate={episode.air_date} />)}
 					</Section>}
 				</Content>
 			</Container>
@@ -39,10 +39,10 @@ const CollectionPresenter = ({ result, error, loading }) => (
 	</>
 )
 
-CollectionPresenter.propTypes = {
+SeasonPresenter.propTypes = {
 	result: PropTypes.object,
 	error: PropTypes.string,
 	loading: PropTypes.bool.isRequired
 };
 
-export default CollectionPresenter;
+export default SeasonPresenter;

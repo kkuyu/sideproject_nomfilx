@@ -10,31 +10,31 @@ const Container = styled.div`
     border-radius: 8px;
 `;
 const ImageContainer = styled.div`
-	width: 30%;
+	width: 40%;
 `;
 const Image = styled.img`
 	border-radius: 5px;
 `;
 const TextContainer = styled.div`
-	width: 70%;
-	padding-left: 20px;
+	width: 60%;
+	padding-left: 18px;
 `;
 const Title = styled.strong`
 	font-size: 15px;
 `;
 const Overview = styled.p`
 	margin-top: 10px;
-	color: #ddd;
+	color: #bcbcbc;
 `;
 
 const PosterCard = ({ imageUrl, title, releaseDate, overview }) => (
 	<Container>
 		<ImageContainer>
-			<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt={title} />
+			<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noStillcut.png")} alt={title} />
 		</ImageContainer>
 		<TextContainer>
-			<Title>{title}({releaseDate.substring(0,4)})</Title>
-			<Overview>{overview}</Overview>
+			<Title>{title} {releaseDate && `(${releaseDate.substring(0,4)})`}</Title>
+			<Overview>{overview ? overview : "No synopsis registered."}</Overview>
 		</TextContainer>
 	</Container>
 );

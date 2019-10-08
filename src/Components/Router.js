@@ -6,6 +6,7 @@ import TV from "Routes/TV";
 import Search from "Routes/Search";
 import Detail from "Routes/Detail";
 import Collection from "Routes/Collection";
+import Season from "Routes/Season";
 
 export default () => (
 	<Router>
@@ -16,9 +17,9 @@ export default () => (
 				<Route path="/tv" exact component={TV} />
 				<Route path="/search" component={Search} />
 				<Route path="/movie/:id" exact component={Detail} />
-				<Route path="/movie/:id/collection/:id" component={Collection} />
+				<Route path="/movie/:id/collection/:number" component={Collection} />
 				<Route path="/show/:id" exact component={Detail} />
-				<Route path="/show/:id/season/:id" component={Collection} />
+				<Route path="/show/:id/season/:number" component={Season} />
 				<Redirect from="*" to="/" />
 			</Switch>
 		</>

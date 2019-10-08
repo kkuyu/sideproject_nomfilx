@@ -22,7 +22,7 @@ export const moviesApi = {
 			query: encodeURIComponent(term)
 		}
 	}),
-	collection: (id) => api.get(`collection/${id}`)
+	collection: (number) => api.get(`collection/${number}`)
 };
 
 export const tvApi = {
@@ -38,5 +38,6 @@ export const tvApi = {
 		params: {
 			query: encodeURIComponent(term)
 		}
-	})
+	}),
+	season: (id, number) => api.get(`tv/${id}/season/${number}`)
 };
