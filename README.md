@@ -32,3 +32,4 @@ Try it on [Netlify](https://nomfilx.netlify.com/)
 - [x] Modal( YouTube Video )
 - [x] On Movie, Collections Link and /collection Route
 - [x] On TV Show, Seasons Link and /seasons Route
+- [x] Review

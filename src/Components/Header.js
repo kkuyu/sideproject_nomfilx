@@ -65,13 +65,6 @@ export default withRouter(({ location: { pathname } }) => (
 				<Item current={pathname === "/tv" || pathname.includes("/show")}><SLink to="/tv">TV</SLink></Item>
 				<Item current={pathname === "/search"}><SLink to="/search">Search</SLink></Item>
 			</List>
-			{/* <ListName>Categories</ListName>
-			<List>
-				<Item><SLink to="">lorem</SLink></Item>
-				<Item><SLink to="">ipsum</SLink></Item>
-				<Item><SLink to="">dolor</SLink></Item>
-				<Item><SLink to="">sit amet</SLink></Item>
-			</List> */}
 		</GnbList>
 	</Header>
 ));

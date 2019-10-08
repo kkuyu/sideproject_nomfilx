@@ -16,6 +16,7 @@ export default class extends React.Component {
 		const { location: { pathname } } = props;
 		this.state = {
 			result: null,
+			reviews: null,
 			error: null,
 			loading: true,
 			isMovie: pathname.includes("/movie/"),
@@ -143,8 +144,10 @@ export default class extends React.Component {
 
 		try {
 			const { data: result } = isMovie ? await moviesApi.movieDetail(parsedId) : await tvApi.showDetail(parsedId);
+			const { data: { results: reviews } }  = isMovie ? await moviesApi.review(parsedId) : await tvApi.review(parsedId);
 			this.setState({
-				result
+				result,
+				reviews
 			});
 		} catch {
 			this.setState({
@@ -168,10 +171,10 @@ export default class extends React.Component {
 	}
 
 	render() {
-		const { result, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey } = this.state;
+		const { result, reviews, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey } = this.state;
 		return <DetailPresenter
 			modalRef={this.modalRef} videoArray={this.videoArray}
-			result={result} error={error} loading={loading} isMovie={isMovie} isModalOpen={isModalOpen} modalContentType={modalContentType} currentVideoKey={currentVideoKey}
+			result={result} reviews={reviews} error={error} loading={loading} isMovie={isMovie} isModalOpen={isModalOpen} modalContentType={modalContentType} currentVideoKey={currentVideoKey}
 			handleModalOpen={this.handleModalOpen} handleModalClose={this.handleModalClose} handleOnClick={this.handleOnClick} handleKeyDown={this.handleKeyDown}
 		/>;
 	}

@@ -5,14 +5,14 @@ import Helmet from "react-helmet";
 
 import Loader from "Components/Loader";
 import Message from "Components/Message";
+
 import DetailInfo from "Components/DetailInfo";
+import Modal from "Components/Modal";
+import ModalPortal from "Components/ModalPortal";
 import Poster from "Components/Poster";
+import Review from "Components/Review";
 import Section from "Components/Section";
 import Tab from "Components/Tab";
-
-import ModalPortal from "Components/ModalPortal";
-import Modal from "Components/Modal";
-
 import VideoThumbnail from "Components/VideoThumbnail";
 import VideoPlayer from "Components/VideoPlayer";
 
@@ -23,7 +23,7 @@ const Content = styled.article`
 	padding: 30px 55px;
 `;
 
-const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey, handleModalOpen, handleModalClose, handleOnClick, handleKeyDown }) => (
+const DetailPresenter = ({ modalRef, videoArray, result, reviews, error, loading, isMovie, isModalOpen, modalContentType, currentVideoKey, handleModalOpen, handleModalClose, handleOnClick, handleKeyDown }) => (
 	loading ? <>
 		<Helmet>
 			<title>Loading | Nomfilx</title>
@@ -41,15 +41,6 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 					imdbId={result.imdb_id} homepageUrl={result.homepage} imageUrl={result.poster_path} backdropUrl={result.backdrop_path}
 				/>
 				<Content>
-
-					{ isMovie && result.belongs_to_collection && <Section title="Collection">
-						<Poster linkTo={`/movie/${result.id}/collection/${result.belongs_to_collection.id}`} imageUrl={result.belongs_to_collection.poster_path} title={result.belongs_to_collection.name} />
-					</Section>}
-
-					{ !isMovie && result.seasons && result.seasons.length > 0 && <Section title="Seasons">
-						{ result.seasons.map(season => <Poster key={season.id} linkTo={`/show/${result.id}/season/${season.season_number}`} imageUrl={season.poster_path} title={season.name} />) }
-					</Section>}
-
 					{ isMovie && ( result.production_companies || result.production_countries ) && <Section title="Production" columnWidth="100%" columnGap="0">
 						<Tab title="Production List" items={[
 							{ name: "Companies", content: (result.production_companies) ? result.production_companies.map(companies => companies.name) : "No Company information registered." },
@@ -64,10 +55,24 @@ const DetailPresenter = ({ modalRef, videoArray, result, error, loading, isMovie
 						]} />
 					</Section>}
 
-					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="300px" columnGap="25px">
+					{reviews && reviews.length > 0 && <Section title="Review" columnWidth="450px">
+						{reviews.map((review, index) => 
+							<Review key={review.id} index={index} author={review.author} content={review.content} />
+						)}
+					</Section>}
+
+					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="290px">
 						{result.videos.results.map((video,index) => 
 							video.site === "YouTube" && <VideoThumbnail key={index} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} videoKey={video.key} />
 						)}
+					</Section>}
+
+					{ isMovie && result.belongs_to_collection && <Section title="Collection">
+						<Poster linkTo={`/movie/${result.id}/collection/${result.belongs_to_collection.id}`} imageUrl={result.belongs_to_collection.poster_path} title={result.belongs_to_collection.name} />
+					</Section>}
+
+					{ !isMovie && result.seasons && result.seasons.length > 0 && <Section title="Seasons">
+						{ result.seasons.map(season => <Poster key={season.id} linkTo={`/show/${result.id}/season/${season.season_number}`} imageUrl={season.poster_path} title={season.name} />) }
 					</Section>}
 
 				</Content>
@@ -87,6 +92,7 @@ DetailPresenter.propTypes = {
 	modalRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 	videoArray: PropTypes.array,
 	result: PropTypes.object,
+	reviews: PropTypes.array,
 	error: PropTypes.string,
 	loading: PropTypes.bool.isRequired,
 	isMovie: PropTypes.bool.isRequired,
