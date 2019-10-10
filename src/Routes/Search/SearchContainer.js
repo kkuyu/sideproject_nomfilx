@@ -3,22 +3,32 @@ import SearchPresenter from "./SearchPresenter";
 import { moviesApi, tvApi } from "api";
 
 export default class extends React.Component {
-	state = {
-		movieResults: null,
-		tvResults: null,
-		searchTerm: "",
-		error: null,
-		loading: false
-	};
+	constructor(props) {
+		super(props);
+		this.isSearching = false;
+		this.state = {
+			movieResults: null,
+			tvResults: null,
+			searchTerm: "",
+			searchResultTerm: "",
+			error: null,
+			loading: false
+		};
+	}
 
-	handleSubmit = (event) => {
-		event.preventDefault();
+	// Add Search Hash.
+	handleSubmit = () => {
 		const { searchTerm } = this.state;
-		if(searchTerm !== ""){
-			this.searchByTerm(searchTerm);
+		const { pathname } = this.props;
+		if( searchTerm !== "" ){
+			const hashString = `#search&term=${searchTerm}`;
+			this.props.history.push(hashString);
+		} else {
+			this.props.history.push(pathname);
 		}
 	}
 
+	// Input vlaue change detection
 	updateTerm = (event) => {
 		const { target: { value: searchTerm } } = event;
 		this.setState({
@@ -26,6 +36,7 @@ export default class extends React.Component {
 		});
 	}
 
+	// Search for api with trim.
 	searchByTerm = async () => {
 		const { searchTerm } = this.state;
 		this.setState({
@@ -50,10 +61,48 @@ export default class extends React.Component {
 		}
 	}
 
+	// Check Hash for search.
+	searchHashCheck = () => {
+		const {
+			location: { hash }
+		} = this.props;
+		const { searchTerm } = this.state;
+
+		if ( hash === "" || !hash.includes("#search") ) {
+			this.isSearching = false;
+			this.setState({
+				searchTerm: "",
+				searchResultTerm: "",
+				movieResults: null,
+				tvResults: null
+			});
+		} else if ( hash.includes("#search") ) {
+			const hashArray = hash.split("&");
+			const searchResultTerm = hashArray.find(item => item.includes("term=")).split("term=")[1];
+			this.isSearching = true;
+			this.setState({
+				searchTerm: (searchTerm === searchResultTerm) ? searchTerm : searchResultTerm,
+				searchResultTerm
+			}, () => this.searchByTerm(searchResultTerm));
+		}
+	}
+
+	componentDidMount() {
+		// First run after page lander
+		this.searchHashCheck();
+	}
+
+	componentDidUpdate(prevProps){
+		// Run whenever location hash changes.
+		if (this.props.location.hash !== prevProps.location.hash) {
+			this.searchHashCheck();
+		}
+	}
+
 	render() {
-		const { movieResults, tvResults, searchTerm, error, loading } = this.state;
+		const { movieResults, tvResults, searchTerm, searchResultTerm, error, loading } = this.state;
 		return (
-			<SearchPresenter movieResults={movieResults} tvResults={tvResults} searchTerm={searchTerm} error={error} loading={loading} handleSubmit={this.handleSubmit} updateTerm={this.updateTerm} />
+			<SearchPresenter movieResults={movieResults} tvResults={tvResults} searchTerm={searchTerm} searchResultTerm={searchResultTerm} error={error} loading={loading} handleSubmit={this.handleSubmit} updateTerm={this.updateTerm} />
 		);
 	}
 }

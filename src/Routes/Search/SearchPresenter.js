@@ -22,7 +22,7 @@ const Input = styled.input`
 	font-size: 28px;
 `;
 
-const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, handleSubmit, updateTerm }) => <>
+const SearchPresenter = ({ movieResults, tvResults, searchTerm, searchResultTerm, error, loading, handleSubmit, updateTerm }) => <>
 	<Helmet>
 		<title>Search | Nomfilx</title>
 	</Helmet>
@@ -31,16 +31,26 @@ const SearchPresenter = ({ movieResults, tvResults, searchTerm, error, loading, 
 		<Form onSubmit={handleSubmit}>
 			<Input type="text" placeholder="Search Movies or TV Shows..." value={searchTerm} onChange={updateTerm} />
 		</Form>
-		{loading ? <Loader /> : <>
-			{ movieResults && movieResults.length > 0 && <Section title="Movie Result">{movieResults.map(movie => 
-				<Poster key={movie.id} linkTo={`/movie/${movie.id}`} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} />
-			)}</Section> }
-			{ tvResults && tvResults.length > 0 && <Section title="TV Show Result">{tvResults.map(show => 
-				<Poster key={show.id} linkTo={`/show/${show.id}`} imageUrl={show.poster_path} title={show.original_name} rating={show.vote_average} year={show.first_air_date && show.first_air_date.substring(0,4)} />
-			)}</Section> }
-			{ error && <Message text={error} color="#e74c3c" /> }
-			{ movieResults && movieResults.length === 0 && tvResults && tvResults.length === 0 && <Message text="Nothing Found." color="#95a5a6" /> }
-		</>}
+		{loading
+			? 
+				<>
+					<Loader />
+					<Message text={`Looking for search results for "${searchResultTerm}".`} color="#95a5a6" />
+				</>
+			: <>
+				{ (movieResults && movieResults.length === 0 && tvResults && tvResults.length === 0)
+					? <Message text={`No search results found for "${searchResultTerm}".`} color="#95a5a6" />
+					: <Message text={`Search results for "${searchResultTerm}".`} color="#95a5a6" />
+				}
+				{ movieResults && movieResults.length > 0 && <Section title="Movie Result">{movieResults.map(movie => 
+					<Poster key={movie.id} linkTo={`/movie/${movie.id}`} imageUrl={movie.poster_path} title={movie.original_title} rating={movie.vote_average} year={movie.release_date && movie.release_date.substring(0,4)} />
+				)}</Section> }
+				{ tvResults && tvResults.length > 0 && <Section title="TV Show Result">{tvResults.map(show => 
+					<Poster key={show.id} linkTo={`/show/${show.id}`} imageUrl={show.poster_path} title={show.original_name} rating={show.vote_average} year={show.first_air_date && show.first_air_date.substring(0,4)} />
+				)}</Section> }
+				{ error && <Message text={error} color="#e74c3c" /> }
+			</>
+		}
 	</Container>
 </>;
 
@@ -48,6 +58,7 @@ SearchPresenter.propTypes = {
 	movieResults: PropTypes.array,
 	tvResults: PropTypes.array,
 	searchTerm: PropTypes.string,
+	searchResultTerm: PropTypes.string,
 	error: PropTypes.string,
 	loading: PropTypes.bool.isRequired,
 	handleSubmit: PropTypes.func.isRequired,
