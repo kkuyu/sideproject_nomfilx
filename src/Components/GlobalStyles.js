@@ -13,13 +13,15 @@ const globalStyle = createGlobalStyle`
 	html.scroll-lock {
 		overflow: hidden;
 	}
-	body{
+	body {
 		padding-left: 250px;
 		font-size: 14px;
 		line-height: 1.2;
 		color: #fff;
-		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		background-color: #1b1c20;
+	}
+	body * {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	}
 	img {
 		display: inline-block;
@@ -32,6 +34,19 @@ const globalStyle = createGlobalStyle`
 		border: none;
 		background: transparent;
 		cursor: pointer;
+	}
+	input {
+		display: block;
+		width: 100%;
+		padding: 0;
+		color: #fff;
+		border: none;
+		background: transparent;
+		appearance: none;
+		outline: none;
+		::-ms-clear {
+			display: none;
+		}
 	}
 	.hidden {
 		position: absolute;

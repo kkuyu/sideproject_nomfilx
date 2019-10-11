@@ -68,7 +68,7 @@ const Poster = ({linkTo, imageUrl, title, rating, year}) => (
 		<Container>
 			<ImageContainer>
 				<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt={title} />
-				<Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" aria-label="Star Rating" /> {rating}/10</Rating>
+				{ rating && <Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" aria-label="Star Rating" /> {rating}/10</Rating> }
 			</ImageContainer>
 			<TextContainer>
 				<Title>{title.length > 15 ? `${title.substring(0,20)}...` : title}</Title>

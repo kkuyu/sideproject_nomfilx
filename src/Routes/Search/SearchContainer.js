@@ -78,7 +78,7 @@ export default class extends React.Component {
 			});
 		} else if ( hash.includes("#search") ) {
 			const hashArray = hash.split("&");
-			const searchResultTerm = hashArray.find(item => item.includes("term=")).split("term=")[1];
+			const searchResultTerm = decodeURIComponent(hashArray.find(item => item.includes("term=")).split("term=")[1]);
 			this.isSearching = true;
 			this.setState({
 				searchTerm: (searchTerm === searchResultTerm) ? searchTerm : searchResultTerm,
