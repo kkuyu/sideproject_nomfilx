@@ -14,33 +14,16 @@ const Image = styled.img`
 	left: 0;
 	width: 100%;
 	transform: translateY(-50%);
-    transition: opacity 0.1s ease-in;
-`;
-const Rating = styled.em`
-	position: absolute;
-	bottom: 5px;
-	left: 5px;
-	opacity: 0;
-	transition: opacity 0.1s ease-in 0.05s;
-	.faStarSolid {
-		color: #ffd700;
-	}
+    transition: opacity 0.1s;
 `;
 const ImageContainer = styled.span`
 	position: relative;
 	display: block;
 	font-size: 12px;
 	overflow: hidden;
+	border: 2px solid transparent;
 	border-radius: 4px;
-	&:hover,
-	&:focus {
-		${Image} {
-			opacity: 0.5;
-		}
-		${Rating} {
-			opacity: 0.9;
-		}
-	}
+	transition: border-color 0.1s;
 	&:before {
 		content: "";
 		display: block;
@@ -50,32 +33,54 @@ const ImageContainer = styled.span`
 		z-index: -1;
 	}
 `;
+const TextContainer = styled.div`
+	position: relative;
+	margin-top: 5px;
+`;
 const Title = styled.strong`
 	display: block;
 `;
+const Rating = styled.em`
+	float: right;
+	.faStarSolid {
+		color: #ffd700;
+	}
+`;
 const Year = styled.span`
 	display: inline-block;
+`;
+const Desc = styled.div`
 	margin-top: 5px;
 	font-size: 12px;
 	color: #bbb;
 `;
-const TextContainer = styled.div`
-	margin-top: 5px;
+const SLink = styled(Link)`
+	&:focus, &:hover {
+		${ImageContainer} {
+			border-color: red;
+		}
+		${Image} {
+			opacity: 0.6;
+		}
+	}
+
 `;
 
-const Poster = ({linkTo, imageUrl, title, rating, year}) => (
-	<Link to={linkTo}>
+const Poster = ({linkTo, imageUrl, title, rating=0, year}) => (
+	<SLink to={linkTo}>
 		<Container>
 			<ImageContainer>
 				<Image src={imageUrl ? `https://image.tmdb.org/t/p/w500/${imageUrl}` : require("../assets/noPoster.png")} alt={title} />
-				{ rating && <Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" aria-label="Star Rating" /> {rating}/10</Rating> }
 			</ImageContainer>
 			<TextContainer>
 				<Title>{title.length > 15 ? `${title.substring(0,20)}...` : title}</Title>
-				<Year>{year}</Year>
+				{ year && <Desc>
+					<Year>{year}</Year>
+					{ rating !== 0 && <Rating><FontAwesomeIcon icon={ faStarSolid } className="faStarSolid" aria-label="Star Rating" /> {rating}/10</Rating> }
+				</Desc>}
 			</TextContainer>
 		</Container>
-	</Link>
+	</SLink>
 );
 
 Poster.prototypes = {

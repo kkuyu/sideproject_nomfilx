@@ -124,7 +124,7 @@ const DetailInfo = ({ voteAverage, title, releaseDate, runtime, genres, tagline,
 			{(releaseDate || runtime || genres) && <ItemContainer>
 				{releaseDate && <Item>{releaseDate.substring(0,4)}</Item>}
 				{runtime && <Item>{runtime} min</Item>}
-				{genres && genres.length > 0 && <Item>{genres.map((genre, index) => <Genre key={index}>{genre.name}</Genre>)}</Item>}
+				{genres && genres.length > 0 && <Item>{genres.map(genre => <Genre key={genre.id}>{genre.name}</Genre>)}</Item>}
 			</ItemContainer>}
 
 			{<Overview>

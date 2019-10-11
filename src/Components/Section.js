@@ -16,7 +16,7 @@ const Title = styled.h3`
 const Grid = styled.div`
 	margin-top: 25px;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, ${props => props.columnWidth || "125px"});
+	grid-template-columns: repeat(auto-fill, ${props => props.columnWidth || "145px"});
 	grid-gap: ${props => props.columnGap || "20px"};
 `;
 

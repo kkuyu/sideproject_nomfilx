@@ -63,7 +63,7 @@ const DetailPresenter = ({ modalRef, videoArray, result, reviews, error, loading
 
 					{result.videos.results.length > 0 && <Section title="YouTube Video" columnWidth="290px">
 						{result.videos.results.map((video,index) => 
-							video.site === "YouTube" && <VideoThumbnail key={index} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} videoKey={video.key} />
+							video.site === "YouTube" && <VideoThumbnail key={video.id} handleModalOpen={handleModalOpen} videoArray={videoArray} index={index} type={video.type} videoKey={video.key} />
 						)}
 					</Section>}
 
